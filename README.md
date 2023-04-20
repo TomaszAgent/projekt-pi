@@ -11,6 +11,16 @@
 3. [Config](#config)
 4. [Integral](#integral)
 
+## Logs
+  Files are named in this scheme, my file is named "Aleks127.0.0.120230421_004658.log" :
+```.log
+    "Aleks" is the username of the client who initiated the connection.
+    "127.0.0.1" is the IP address of the client.
+    "2023-04-21" is the date when the log was created, in the format YYYY-MM-DD.
+    "004057" is the time when the log was created, in the format HHMMSS (hours, minutes, seconds).
+    ".log" is the file extension, indicating that the file contains log data.
+```
+
 <h3>Now let's talk about the code and what's going on in it.
 
 ## Server
