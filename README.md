@@ -1,15 +1,20 @@
-# To run program, paste this into console:
+## To make program usable, paste this into console while being in projekt-pi directory:
 
-`pip install -r requirements.txt`
+```bash
+pip install -r requirements.txt
+```
 <br>
-# Content:
+# Table of contents:
+1. [Server](#server)
+2. [Client](#client)
+3. [Config](#config)
+4. [Integral](#integral)
 
 
-<h3>After pasting this command everything should be good to go.<h3>
 <h3>Now let's talk about the code and what's going on in it.
 
 
-# Server
+## Server
 ```python
 import socket
 from config import CONNECTION_STRING, error_handler, read_data, FORMAT
@@ -127,7 +132,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     # close the socket connection
     server.close()
 ```
-
+## Config
 ```python
 
 HOST = "localhost"  # host address of the server
@@ -155,7 +160,7 @@ def error_handler(socket):
     error = b'unoperated request\r\n\r\n'
     socket.sendall(error)
 ```
-
+## Integral
 ```python
 
 import numpy as np
