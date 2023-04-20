@@ -10,6 +10,7 @@
 2. [Client](#client)
 3. [Config](#config)
 4. [Integral](#integral)
+5. [Logs](#logs)
 
 ## Logs
   Files are named in this scheme, my file is named "Aleks127.0.0.120230421_004658.log" :
