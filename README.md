@@ -1,8 +1,8 @@
 ## To make program usable, paste this into console while being in projekt-pi directory:
 
-```bash
+`
 pip install -r requirements.txt
-```
+`
 <br>
 # Table of contents:
 1. [Server](#server)
