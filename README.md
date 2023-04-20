@@ -3,7 +3,8 @@
 `
 pip install -r requirements.txt
 `
-<br>
+<h4> After requirements.txt has been installed you can run program by using some IDE or by CMD, you need to remember that you have to start server first. </h4>
+
 # Table of contents:
 1. [Server](#server)
 2. [Client](#client)
