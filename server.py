@@ -1,5 +1,6 @@
 import socket
 from config import CONNECTION_STRING, error_handler, read_data, FORMAT
+from _thread import start_new_thread
 from integral import integral
 
 
@@ -24,23 +25,27 @@ def request_handler(client, request):
         return True
 
 
+def connection_handler(client):
+    data = read_data(client).decode(FORMAT)
+    if data.split("\r\n")[0] == "HELLO":
+        name = data.split("\r\n")[1]
+        response = f"HELLO HABIBI {name}\r\n\r\n"
+        client.sendall(response.encode(FORMAT))
+    else:
+        error_handler(client)
+
+    while True:
+        request = read_data(client).decode(FORMAT)
+        if request_handler(client, request):
+            break
+
+    client.close()
+
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
     serv.bind(CONNECTION_STRING)
     serv.listen(5)
     while True:
         client, addr = serv.accept()
         print(f"Connected from {addr[0]}")
-        data = read_data(client).decode(FORMAT)
-        if data.split("\r\n")[0] == "HELLO":
-            name = data.split("\r\n")[1]
-            response = f"HELLO HABIBI {name}\r\n\r\n"
-            client.sendall(response.encode(FORMAT))
-        else:
-            error_handler(client)
-
-        while True:
-            request = read_data(client).decode(FORMAT)
-            if request_handler(client, request):
-                break
-
-        client.close()
+        start_new_thread(connection_handler, (client,))
