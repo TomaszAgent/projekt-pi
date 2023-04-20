@@ -11,13 +11,12 @@ def request_handler(client, request):
         b = int(request.split("\r\n")[2].split()[1])
         f = request.split("\r\n")[3].split()[1]
         result = integral(a, b, f)
-        print(result)
-        if result != 'ERROR OCCURRED':
+        if result != 'ERROR OCCURRED\r\n\r\n':
             client.sendall(f"RESULT: {result}\r\n\r\n".encode(FORMAT))
         else:
-            client.sendall(response.encode(FORMAT))
+            client.sendall(result.encode(FORMAT))
         return False
-    elif request.split("\r\n")[0] == "BYE":
+    elif request == "BYE\r\n\r\n":
         client.sendall("BYE\r\n\r\n".encode(FORMAT))
         return True
     else:
@@ -31,13 +30,12 @@ def connection_handler(client):
         name = data.split("\r\n")[1]
         response = f"HELLO HABIBI {name}\r\n\r\n"
         client.sendall(response.encode(FORMAT))
+        while True:
+            request = read_data(client).decode(FORMAT)
+            if request_handler(client, request):
+                break
     else:
         error_handler(client)
-
-    while True:
-        request = read_data(client).decode(FORMAT)
-        if request_handler(client, request):
-            break
 
     client.close()
 

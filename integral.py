@@ -11,4 +11,4 @@ def integral(a, b, f):
         s = dx * np.sum(Y)
         return s
     except:
-        return 'ERROR OCCURRED'
+        return 'ERROR OCCURRED\r\n\r\n'
