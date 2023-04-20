@@ -1,21 +1,20 @@
 ## To make program usable, paste this into console while being in projekt-pi directory:
 
-`
-pip install -r requirements.txt
-`
+`pip install -r requirements.txt`
+
 <h4> After requirements.txt has been installed you can run program by using some IDE or by CMD, you need to remember that you have to start server first. </h4>
 
 # Table of contents:
+
 1. [Server](#server)
 2. [Client](#client)
 3. [Config](#config)
 4. [Integral](#integral)
 
-
 <h3>Now let's talk about the code and what's going on in it.
 
-
 ## Server
+
 ```python
 import socket
 from config import CONNECTION_STRING, error_handler, read_data, FORMAT
@@ -28,7 +27,7 @@ def request_handler(client, request):
         a = int(request.split("\r\n")[1].split()[1])
         b = int(request.split("\r\n")[2].split()[1])
         f = request.split("\r\n")[3].split()[1]
-        
+
         # Compute the integral and send the result back to the client
         result = integral(a, b, f)
         print(result)
@@ -37,12 +36,12 @@ def request_handler(client, request):
         else:
             client.sendall(response.encode(FORMAT))
         return False
-        
+
     # If the request is a BYE request, send a response and return True to break the loop
     elif request.split("\r\n")[0] == "BYE":
         client.sendall("BYE\r\n\r\n".encode(FORMAT))
         return True
-        
+
     # If the request is not recognized, send an error message and return True to break the loop
     else:
         error_handler(client)
@@ -76,7 +75,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
         print(f"Connected from {addr[0]}")
         start_new_thread(connection_handler, (client,))
 ```
+
 # Client
+
 ```python
 import socket
 from config import CONNECTION_STRING, read_data, FORMAT
@@ -133,7 +134,9 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     # close the socket connection
     server.close()
 ```
+
 ## Config
+
 ```python
 
 HOST = "localhost"  # host address of the server
@@ -161,7 +164,9 @@ def error_handler(socket):
     error = b'unoperated request\r\n\r\n'
     socket.sendall(error)
 ```
+
 ## Integral
+
 ```python
 
 import numpy as np
