@@ -7,6 +7,9 @@ from datetime import datetime
 
 LOGS_DIR = "logs/"
 
+if not os.path.exists(LOGS_DIR):
+    os.makedirs(LOGS_DIR)
+
 def request_handler(client, request, log_file):
     # If the request is an INTEGRAL request, extract the necessary parameters
     if request.split("\r\n")[0] == "INTEGRAL":
