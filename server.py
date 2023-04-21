@@ -68,5 +68,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
     serv.listen(5)
     while True:
         client, addr = serv.accept()
+        print("Server is running...")
         print(f"Connected from {addr[0]}")
         start_new_thread(connection_handler, (client, addr))
