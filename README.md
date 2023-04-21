@@ -5,12 +5,12 @@
 <h4> After requirements.txt has been installed you can run program by using some IDE or by CMD, you need to remember that you have to start server first. </h4>
 
 # Table of contents:
-
-1. [Server](#server)
-2. [Client](#client)
-3. [Config](#config)
-4. [Integral](#integral)
-5. [Logs](#logs)
+1. [Logs](#logs)
+2. [Server](#server)
+3. [Client](#client)
+4. [Config](#config)
+5. [Integral](#integral)
+ 
 
 ## Logs
   Files are named in this scheme, my file is named "Aleks127.0.0.120230421_004658.log" :
