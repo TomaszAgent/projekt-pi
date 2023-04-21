@@ -1,6 +1,8 @@
 ## To make program usable, paste this into console while being in projekt-pi directory:
 
-`pip install -r requirements.txt`
+```
+pip install -r requirements.txt
+```
 
 <h4> After requirements.txt has been installed you can run program by using some IDE or by CMD, you need to remember that you have to start server first. </h4>
 
