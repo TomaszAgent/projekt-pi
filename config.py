@@ -1,5 +1,5 @@
 HOST = "localhost"
-PORT = 39238
+PORT = 38238
 CONNECTION_STRING = (HOST, PORT)
 FORMAT = "utf-8"
 

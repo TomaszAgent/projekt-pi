@@ -7,8 +7,6 @@ from datetime import datetime
 
 LOGS_DIR = "logs/"
 
-if not os.path.exists(LOGS_DIR):
-    os.makedirs(LOGS_DIR)
 
 def request_handler(client, request, log_file):
     # If the request is an INTEGRAL request, extract the necessary parameters
@@ -16,7 +14,7 @@ def request_handler(client, request, log_file):
         a = int(request.split("\r\n")[1].split()[1])
         b = int(request.split("\r\n")[2].split()[1])
         f = request.split("\r\n")[3].split()[1]
-        
+
         # Compute the integral and send the result back to the client
         result = integral(a, b, f)
         print(result)
@@ -26,18 +24,19 @@ def request_handler(client, request, log_file):
             client.sendall(response.encode(FORMAT))
         log_file.write(f"INTEGRAL REQUEST: a={a}, b={b}, f={f}, RESULT: {result}\n")
         return False
-        
+
     # If the request is a BYE request, send a response and return True to break the loop
     elif request.split("\r\n")[0] == "BYE":
         client.sendall("BYE\r\n\r\n".encode(FORMAT))
         log_file.write("BYE REQUEST\n")
         return True
-        
+
     # If the request is not recognized, send an error message and return True to break the loop
     else:
         error_handler(client)
         log_file.write("INVALID REQUEST\n")
         return True
+
 
 def connection_handler(client, addr):
     # Receive the initial HELLO message from the client
@@ -62,12 +61,12 @@ def connection_handler(client, addr):
     # Close the connection with the client
     client.close()
 
+
 # Set up the server socket and listen for incoming connections
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
     serv.bind(CONNECTION_STRING)
     serv.listen(5)
     while True:
         client, addr = serv.accept()
-        print("Server is running...")
         print(f"Connected from {addr[0]}")
         start_new_thread(connection_handler, (client, addr))
