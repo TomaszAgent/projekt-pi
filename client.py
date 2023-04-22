@@ -33,7 +33,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
                 else:
                     print("no i sie wyjebalo")
             else:
-                print("ty jebany przygłupie, czytaj ze zrozumeiniem, 1 albo 0")
+                print("ty przygłupie, czytaj ze zrozumeiniem, 1 albo 0")
     else:
         print('no i sie wyjebalo')
     server.close()
