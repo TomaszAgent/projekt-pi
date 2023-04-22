@@ -79,12 +79,13 @@ def request_handler(client, request, log_file):
         log_file.write("INVALID REQUEST\n")
         return True
 
+
 def connection_handler(client, addr):
     # Receive the initial HELLO message from the client
     data = read_data(client).decode(FORMAT)
     if data.split("\r\n")[0] == "HELLO":
         name = data.split("\r\n")[1]
-        response = f"HELLO HABIBI {name}\r\n\r\n"
+        response = f"HELLO {name}\r\n\r\n"
         client.sendall(response.encode(FORMAT))
         log_file_name = f"{name}{addr[0]}{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         log_file_path = os.path.join(LOGS_DIR, log_file_name)
@@ -98,9 +99,9 @@ def connection_handler(client, addr):
             log_file.write("CONNECTION CLOSED\n")
     else:
         error_handler(client)
-
     # Close the connection with the client
     client.close()
+
 
 # Set up the server socket and listen for incoming connections
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
@@ -119,56 +120,43 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
 import socket
 from config import CONNECTION_STRING, read_data, FORMAT
 
-# create a socket object and connect to the server
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     server.connect(CONNECTION_STRING)
-
-    # ask for user's name and send a HELLO message to the server
     name = input("What's your name:")
     request = f'HELLO\r\n{name}\r\n\r\n'
     server.sendall(request.encode(FORMAT))
 
-    # read server's response and check if it's a HELLO message
     response = read_data(server).decode(FORMAT)
+
     if response.split()[0] == "HELLO":
         print(response)
-
-        # loop until the user decides to disconnect
         while True:
-            # ask the user what function they want to use
             operation = int(input('What function do you want to use (1-integral, 0-disconnect):'))
-
-            if operation == 1:  # user wants to calculate an integral
+            if operation == 1:
                 a = input("Bottom Range:")
                 b = input("Top Range:")
                 f = input("Function:")
                 request = f"INTEGRAL\r\nBOTTOM-RANGE: {a}\r\n TOP-RANGE: {b}\r\n FUNCTION: {f}\r\n\r\n"
                 server.sendall(request.encode(FORMAT))
-
-                # read server's response and print the result or an error message
                 response = read_data(server).decode(FORMAT)
                 if response.split()[0] == 'RESULT:':
                     print(f"server returned: {response.split()[1]}")
                 else:
                     print("error occurred")
-
-            elif operation == 0:  # user wants to disconnect
+            elif operation == 0:
+                print("Bye")
                 server.sendall("BYE\r\n\r\n".encode(FORMAT))
-
-                # read server's response and break the loop if it's a BYE message
                 response = read_data(server).decode(FORMAT)
                 if response == "BYE\r\n\r\n":
                     break
+
                 else:
-                    print("error ocurred")
-
-            else:  # user entered an invalid operation
-                print("unoperated function")
-
-    else:  # server didn't respond with a HELLO message
-        print('error occurred')
-
-    # close the socket connection
+                    print("no i się wyjebało")
+            else:
+                print("ty jebany przygłupie, czytaj ze zrozumieniem, 1 albo 0")
+    else:
+        print('no i się wyjebało')
     server.close()
 ```
 
