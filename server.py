@@ -7,6 +7,8 @@ from datetime import datetime
 
 LOGS_DIR = "logs/"
 
+if not os.path.exists(LOGS_DIR):
+    os.makedirs(LOGS_DIR)
 
 def request_handler(client, request, log_file):
     # If the request is an INTEGRAL request, extract the necessary parameters
@@ -43,7 +45,7 @@ def connection_handler(client, addr):
     data = read_data(client).decode(FORMAT)
     if data.split("\r\n")[0] == "HELLO":
         name = data.split("\r\n")[1]
-        response = f"HELLO HABIBI {name}\r\n\r\n"
+        response = f"HELLO {name}\r\n\r\n"
         client.sendall(response.encode(FORMAT))
         log_file_name = f"{name}{addr[0]}{datetime.now().strftime('%Y%m%d_%H%M%S')}.log"
         log_file_path = os.path.join(LOGS_DIR, log_file_name)
@@ -57,7 +59,6 @@ def connection_handler(client, addr):
             log_file.write("CONNECTION CLOSED\n")
     else:
         error_handler(client)
-
     # Close the connection with the client
     client.close()
 

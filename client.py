@@ -26,14 +26,16 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
                 else:
                     print("error occurred")
             elif operation == 0:
+                print("Bye")
                 server.sendall("BYE\r\n\r\n".encode(FORMAT))
                 response = read_data(server).decode(FORMAT)
                 if response == "BYE\r\n\r\n":
                     break
+
                 else:
-                    print("error ocurred")
+                    print("no i się wyjebało")
             else:
-                print("unoperated function")
+                print("ty jebany przygłupie, czytaj ze zrozumieniem, 1 albo 0")
     else:
-        print('error occurred')
+        print('no i się wyjebało')
     server.close()
