@@ -2,9 +2,10 @@ import numpy as np
 
 
 def integral(a, b, f):
-    dx = ((b-a) / 1000)
-    X = np.arange(a, b, dx).tolist()
     try:
+        a, b = int(a), int(b)
+        dx = ((b - a) / 10000)
+        X = np.arange(a, b, dx).tolist()
         Y = []
         for element in X:
             Y.append(eval(f, {}, {'x': element}))

@@ -13,8 +13,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     if response.split()[0] == "HELLO":
         print(response)
         while True:
-            operation = int(input('What function do you want to use (1-integral, 0-disconnect):'))
-            if operation == 1:
+            operation = input('What function do you want to use (1-integral, 0-disconnect):')
+            if operation == "1":
                 a = input("Bottom Range:")
                 b = input("Top Range:")
                 f = input("Function:")
@@ -25,7 +25,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
                     print(f"server returned: {response.split()[1]}")
                 else:
                     print("error occurred")
-            elif operation == 0:
+            elif operation == "0":
                 print("Bye")
                 server.sendall("BYE\r\n\r\n".encode(FORMAT))
                 response = read_data(server).decode(FORMAT)
