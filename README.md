@@ -50,20 +50,20 @@ LOGS_DIR = "logs/"
 if not os.path.exists(LOGS_DIR):
     os.makedirs(LOGS_DIR)
 
+
 def request_handler(client, request, log_file):
     # If the request is an INTEGRAL request, extract the necessary parameters
     if request.split("\r\n")[0] == "INTEGRAL":
-        a = int(request.split("\r\n")[1].split()[1])
-        b = int(request.split("\r\n")[2].split()[1])
+        a = request.split("\r\n")[1].split()[1]
+        b = request.split("\r\n")[2].split()[1]
         f = request.split("\r\n")[3].split()[1]
 
         # Compute the integral and send the result back to the client
         result = integral(a, b, f)
-        print(result)
-        if result != 'ERROR OCCURRED':
+        if result != 'ERROR OCCURRED\r\n\r\n':
             client.sendall(f"RESULT: {result}\r\n\r\n".encode(FORMAT))
         else:
-            client.sendall(response.encode(FORMAT))
+            client.sendall(result.encode(FORMAT))
         log_file.write(f"INTEGRAL REQUEST: a={a}, b={b}, f={f}, RESULT: {result}\n")
         return False
 
@@ -111,7 +111,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
         client, addr = serv.accept()
         print(f"Connected from {addr[0]}")
         start_new_thread(connection_handler, (client, addr))
-
 ```
 
 # Client
@@ -132,8 +131,8 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     if response.split()[0] == "HELLO":
         print(response)
         while True:
-            operation = int(input('What function do you want to use (1-integral, 0-disconnect):'))
-            if operation == 1:
+            operation = input('What function do you want to use (1-integral, 0-disconnect):')
+            if operation == "1":
                 a = input("Bottom Range:")
                 b = input("Top Range:")
                 f = input("Function:")
@@ -144,7 +143,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
                     print(f"server returned: {response.split()[1]}")
                 else:
                     print("error occurred")
-            elif operation == 0:
+            elif operation == "0":
                 print("Bye")
                 server.sendall("BYE\r\n\r\n".encode(FORMAT))
                 response = read_data(server).decode(FORMAT)
