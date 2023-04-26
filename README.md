@@ -120,61 +120,49 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
 import socket
 from config import CONNECTION_STRING, read_data, FORMAT
 
-# Creating a socket and connecting to the server
+
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     server.connect(CONNECTION_STRING)
-
-    # Prompting user for their name and sending a HELLO request to the server
     name = input("What's your name:")
     request = f'HELLO\r\n{name}\r\n\r\n'
     server.sendall(request.encode(FORMAT))
 
-    # Reading the server's response to the HELLO request
     response = read_data(server).decode(FORMAT)
 
-    # Checking if the server responded with a HELLO message
     if response.split()[0] == "HELLO":
         print(response)
-
-        # Entering a loop to prompt user for a desired function (integral or disconnect)
         while True:
-            operation = int(input('What function do you want to use (1-integral, 0-disconnect):'))
-            if operation == 1:
-                # Prompting user for input for an integral calculation and sending request to server
+            operation = input('What function do you want to use (1-integral, 0-disconnect):')
+            if operation == "1":
                 a = input("Bottom Range:")
                 b = input("Top Range:")
                 f = input("Function:")
-                request = f"INTEGRAL\r\nBOTTOM-RANGE: {a}\r\n TOP-RANGE: {b}\r\n FUNCTION: {f}\r\n\r\n"
+                request = f"INTEGRAL\r\nBOTTOM-RANGE: {a}\r\nTOP-RANGE: {b}\r\nFUNCTION: {f}\r\n\r\n"
                 server.sendall(request.encode(FORMAT))
-
-                # Reading the server's response to the integral request and displaying the result
                 response = read_data(server).decode(FORMAT)
                 if response.split()[0] == 'RESULT:':
                     print(f"server returned: {response.split()[1]}")
                 else:
                     print("error occurred")
-            elif operation == 0:
-                # Disconnecting from the server
+            elif operation == "0":
                 print("Bye")
                 server.sendall("BYE\r\n\r\n".encode(FORMAT))
                 response = read_data(server).decode(FORMAT)
                 if response == "BYE\r\n\r\n":
                     break
+
                 else:
-                    print("error occurred")
+                    print("no i się wyjebało")
             else:
                 print("ty jebany przygłupie, czytaj ze zrozumieniem, 1 albo 0")
     else:
         print('no i się wyjebało')
-
-    # Closing the connection to the server
     server.close()
 ```
 
 ## Config
 
 ```python
-
 HOST = "localhost"  # host address of the server
 PORT = 39236  # port number of the server
 CONNECTION_STRING = (HOST, PORT)  # tuple containing host and port
@@ -204,18 +192,14 @@ def error_handler(socket):
 ## Integral
 
 ```python
-
 import numpy as np
 
 
 def integral(a, b, f):
-    """
-    Computes the definite integral of a given function f over the interval [a, b]
-    using the trapezoidal rule with 1000 subintervals.
-    """
-    dx = ((b-a) / 1000)
-    X = np.arange(a, b, dx).tolist()
     try:
+        a, b = int(a), int(b)
+        dx = ((b - a) / 10000)
+        X = np.arange(a, b, dx).tolist()
         Y = []
         for element in X:
             Y.append(eval(f, {}, {'x': element}))
