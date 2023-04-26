@@ -18,7 +18,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
                 a = input("Bottom Range:")
                 b = input("Top Range:")
                 f = input("Function:")
-                request = f"INTEGRAL\r\nBOTTOM-RANGE: {a}\r\n TOP-RANGE: {b}\r\n FUNCTION: {f}\r\n\r\n"
+                request = f"INTEGRAL\r\nBOTTOM-RANGE: {a}\r\nTOP-RANGE: {b}\r\nFUNCTION: {f}\r\n\r\n"
                 server.sendall(request.encode(FORMAT))
                 response = read_data(server).decode(FORMAT)
                 if response.split()[0] == 'RESULT:':
