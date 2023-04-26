@@ -1,16 +1,9 @@
 ## To make program usable, paste this into console while being in projekt-pi directory:
+<h4> If errors comes out you have to create a virtual envrionment in the projekt-pi directory and then use: </h4>
 
 ```
-pip install numpy
+pip install requirements.txt
 ```
-```
-pip install datetime
-```
-```
-pip install socket
-```
-
-
 <h4> After requirements.txt has been installed you can run program by using some IDE or by CMD, you need to remember that you have to start server first. </h4>
 
 # Table of contents:
