@@ -120,43 +120,54 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
 import socket
 from config import CONNECTION_STRING, read_data, FORMAT
 
-
+# Creating a socket and connecting to the server
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
     server.connect(CONNECTION_STRING)
+
+    # Prompting user for their name and sending a HELLO request to the server
     name = input("What's your name:")
     request = f'HELLO\r\n{name}\r\n\r\n'
     server.sendall(request.encode(FORMAT))
 
+    # Reading the server's response to the HELLO request
     response = read_data(server).decode(FORMAT)
 
+    # Checking if the server responded with a HELLO message
     if response.split()[0] == "HELLO":
         print(response)
+
+        # Entering a loop to prompt user for a desired function (integral or disconnect)
         while True:
-            operation = input('What function do you want to use (1-integral, 0-disconnect):')
-            if operation == "1":
+            operation = int(input('What function do you want to use (1-integral, 0-disconnect):'))
+            if operation == 1:
+                # Prompting user for input for an integral calculation and sending request to server
                 a = input("Bottom Range:")
                 b = input("Top Range:")
                 f = input("Function:")
                 request = f"INTEGRAL\r\nBOTTOM-RANGE: {a}\r\n TOP-RANGE: {b}\r\n FUNCTION: {f}\r\n\r\n"
                 server.sendall(request.encode(FORMAT))
+
+                # Reading the server's response to the integral request and displaying the result
                 response = read_data(server).decode(FORMAT)
                 if response.split()[0] == 'RESULT:':
                     print(f"server returned: {response.split()[1]}")
                 else:
                     print("error occurred")
-            elif operation == "0":
+            elif operation == 0:
+                # Disconnecting from the server
                 print("Bye")
                 server.sendall("BYE\r\n\r\n".encode(FORMAT))
                 response = read_data(server).decode(FORMAT)
                 if response == "BYE\r\n\r\n":
                     break
-
                 else:
-                    print("no i się wyjebało")
+                    print("error occurred")
             else:
                 print("ty jebany przygłupie, czytaj ze zrozumieniem, 1 albo 0")
     else:
         print('no i się wyjebało')
+
+    # Closing the connection to the server
     server.close()
 ```
 
