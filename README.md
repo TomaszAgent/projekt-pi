@@ -14,6 +14,7 @@ pip install -r requirements.txt
 4. [Client](#client)
 5. [Config](#config)
 6. [Integral](#integral)
+7. [Request](#request)
 
 ## Shortcut
 This program is a client that connects to a server using a socket connection. The program prompts the user to enter their name and sends a "HELLO" message to the server. Then, the program enters a loop where the user is prompted to choose between calculating an integral or disconnecting from the server. If the user chooses to calculate an integral, the program prompts the user for the lower and upper bounds of the integration and the function to be integrated. The program sends the request to the server and receives the result or an error message in response. If the user chooses to disconnect, the program sends a "BYE" message to the server and exits the loop. If the server responds with a "BYE" message, the program closes the socket connection and terminates. The program uses helper functions to read data from the socket and handle errors.
@@ -211,4 +212,22 @@ def integral(a, b, f):
         return s
     except:
         return 'ERROR OCCURRED\r\n\r\n'
+```
+
+
+## Request
+Syntax of requests
+Each request ends with a double crlf character
+
+Server greeting request:
+```bash
+HELLO\r\n{name}\r\n\r\n
+```
+Integral Calculation Request:
+```bash
+INTEGRAL\r\nBOTTOM-RANGE: {a}\r\nTOP-RANGE: {b}\r\nFUNCTION: {f}\r\n\r\n
+```
+Request to disconnect from the server:
+```bash
+BYE\r\n\r\n
 ```
